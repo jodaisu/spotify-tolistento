@@ -27,13 +27,13 @@ const stateKey = 'spotify_auth_state';
 
 const app = express();
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/'));
 app.use(cors());
 app.use(cookieParser());
 
 
 app.get('/login', (req, res) => {
-
+  console.log('login request')
   //set cookie for /login
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -153,11 +153,15 @@ app.get('/refresh_token', (req, res) => {
   });
 });
 
-
+app.get('/dist/bundle.js', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'))
+})
 
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../public/index.html'));
 });
+
+
  
 console.log(`Listening on port ${PORT}`);
 app.listen(8888);
