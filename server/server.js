@@ -5,7 +5,7 @@ const cors = require('cors');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-
+const bodyParser = require('body-parser');
 
 const client_id = '3262d100566844bfae076dc40941c25a'; // client id
 const client_secret = '75ae3e87832f4b0488a167efe314c1c1'; // secret
@@ -33,50 +33,40 @@ app.use(cookieParser());
 
 
 app.get('/login', (req, res) => {
-  console.log('login request')
-  //set cookie for /login
+
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // application requests authorization here
-  // change scope to gain more access
+
   const scope = 'user-read-private user-read-email user-top-read';
-
-  // redirect to spotify when user req for /login
-  // url query serves as headers
   res.redirect('https://accounts.spotify.com/authorize?' +
-  querystring.stringify({
-    response_type: 'code',
-    client_id: client_id,
-    scope: scope,
-    redirect_uri: redirect_uri,
-    state: state
-  }));
-
+    querystring.stringify({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state
+    }));
 });
+
 
 app.get('/callback', (req, res) => {
 
-  // your application requests refresh and access tokens
+  // application requests refresh and access tokens
   // after checking the state parameter
+
   let code = req.query.code || null;
   let state = req.query.state || null;
+  let storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  // check if there is a state already
-  let storedState = req.state ? req.cookies[stateKey] : null;
-
-  // if there's no state or the current state doesnt match, redirect to error
-
-  if (state === null || state != storedState){
-    res.redirect('/#' + 
+  if (state === null || state !== storedState) {
+    res.redirect('/#' +
       querystring.stringify({
         error: 'state_mismatch'
       }));
-  }// if state is valid
-    else{
+  } else {
     res.clearCookie(stateKey);
-    
-    // SPOTIFY AUTHORIZATION SETUP
     const authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
@@ -85,17 +75,17 @@ app.get('/callback', (req, res) => {
         grant_type: 'authorization_code'
       },
       headers: {
-        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
       },
       json: true
     };
 
-    // SPOTIFY AUTH REQUEST FOR ACCESS TOKEN
-    request.post(authOptions, (err, res, body) => {
-      if (!err && res.statusCode === 200){
+    // has user token, handle api requests here, then redirect to /home
+    request.post(authOptions, (error, response, body) => {
+      if (!error && response.statusCode === 200) {
 
-        const access_token = body.access_token
-        const refresh_token = body.refresh_token
+        const access_token = body.access_token,
+            refresh_token = body.refresh_token;
 
         const options = {
           url: 'https://api.spotify.com/v1/me',
@@ -103,25 +93,37 @@ app.get('/callback', (req, res) => {
           json: true
         };
 
-        // use access token to access API
-        // In this case, client information
-        request.get(options, (err, res, body) => {
+        // use the access token to access the Spotify Web API
+        // get user info here
+        request.get(options, (error, response, body) => {
           console.log(body);
-        })
+        });
 
-        // we can also pass the token to the browser to make requests from there
+        // get user's top artists
+        const topArtists = {
+          url: 'https://api.spotify.com/v1/me/top/artists',
+          headers: { 'Authorization': 'Bearer ' + access_token },
+          json: true
+        }
+
+        // body.items is an array of objects (map!!!)
+        request.get(topArtists, (error, response, body) => {
+          // console.log(body.items);
+        });
+
+        // old chain default behavior old redirect
         res.redirect('/#' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
           }));
-      } // if token is invalid
-        else {
-          res.redirect('/#' +
-            querystring.stringify({
-              error: 'invalid_token'
-            }));
-        }
+
+      } else {
+        res.redirect('/#' +
+          querystring.stringify({
+            error: 'invalid_token'
+          }));
+      }
     });
   }
 });
@@ -153,10 +155,12 @@ app.get('/refresh_token', (req, res) => {
   });
 });
 
+// serve bundle.js
 app.get('/dist/bundle.js', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../dist/bundle.js'))
 })
 
+// serve react app
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../public/index.html'));
 });
