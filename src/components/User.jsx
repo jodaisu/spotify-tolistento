@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-// this component provides User Information from their Spotify Account
+import UserCard from './UserCard';
+
+// this component populates User Information from their Spotify Account
 // fetch Spotify data here
 
 class User extends Component {
@@ -10,7 +12,8 @@ class User extends Component {
 
     this.state = {
       access_token : props.access_token,
-      userInfo : {}
+      name : "",
+      profileImgUrl : ""
     }
   }
 
@@ -24,6 +27,11 @@ class User extends Component {
     })
     .then(res => res.json())
     .then(data => {
+      this.setState({ 
+        name : data.display_name.split(' ')[0],
+        profileImgUrl : data.images[0].url
+      })
+
       console.log(data)
     })
     .catch(err => console.log('getDetails: ERROR: ', err));
@@ -31,14 +39,20 @@ class User extends Component {
 
   componentWillMount(){
     this.getUserInfo(this.props.access_token)
+    
   }
 
 
   render(){
-
+    // convert image object to string
+    
     return(
     <div className="User">
-      This is the user container for user {this.state.access_token}
+
+      <UserCard 
+        name={this.state.name}
+        profileImgUrl={this.state.profileImgUrl}
+      />
     </div>
     )
   }

@@ -22,3 +22,10 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.UserCard {
+  background-color: yellow;
+  display: flex;
+
+}
+
