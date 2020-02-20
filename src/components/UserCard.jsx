@@ -7,7 +7,7 @@ const UserCard = ({
   return (
     <div className="UserCard">
       <div>
-      Welcome, {name}!!
+      Welcome {name}
       </div>
       <div className="profileImg">
         <img src={profileImgUrl} width="30"></img>
