@@ -3,6 +3,8 @@ import {hot} from "react-hot-loader";
 import "./App.css";
 
 import User from './components/User';
+import TopArtists from './components/TopArtists';
+import TopTracks from './components/TopTracks';
 
 class App extends Component{
   constructor(props) {
@@ -10,10 +12,7 @@ class App extends Component{
 
     this.state = {
       access_token : '',
-      refresh_token: '',
-      userInfo : {},
-      fetchedTracks: {},
-      fetchedArtists: {}
+      refresh_token: ''
     };
 
     this.getHashParams = this.getHashParams.bind(this);
@@ -54,6 +53,12 @@ class App extends Component{
           <User 
             access_token={this.state.access_token}
           />
+          <TopArtists
+            access_token={this.state.access_token}
+          />
+          {/* <TopTracks
+            access_token={this.state.access_token}
+          /> */}
         </div>
       );
     }

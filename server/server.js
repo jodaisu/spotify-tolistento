@@ -40,12 +40,6 @@ app.use(cors());
 app.use(cookieParser());
 
 
-// app.use('/api/userInfo', (req, res) => {
-//   console.log();
-
-//   res.status(200)
-// })
-
 // request to login with spotify
 app.get('/login', (req, res) => {
 
@@ -121,9 +115,11 @@ app.get('/callback', (req, res) => {
           json: true
         }
 
+
+
         // body.items is an array of objects (map!!!)
         request.get(topArtists, (error, response, body) => {
-          // console.log(body.items);
+          console.log(body.items);
         });
 
         // old chain default behavior old redirect
