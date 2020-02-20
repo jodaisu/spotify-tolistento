@@ -2,6 +2,8 @@ import React, { Component} from "react";
 import {hot} from "react-hot-loader";
 import "./App.css";
 
+import User from './components/User';
+
 class App extends Component{
   constructor(props) {
     super(props);
@@ -9,6 +11,7 @@ class App extends Component{
     this.state = {
       access_token : '',
       refresh_token: '',
+      userInfo : {},
       fetchedTracks: {},
       fetchedArtists: {}
     };
@@ -46,10 +49,11 @@ class App extends Component{
 
     // if user has access token, render APP
     else {
-      console.log('rendered')
       return (
         <div className="App">
-          Welcome, {this.state.access_token}!!
+          <User 
+            access_token={this.state.access_token}
+          />
         </div>
       );
     }

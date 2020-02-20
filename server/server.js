@@ -27,11 +27,26 @@ const stateKey = 'spotify_auth_state';
 
 const app = express();
 
+// // require routers
+// const userInfo = require('./routes/userInfo');
+
+
+// app.use('/api/userInfo', userInfo);
+
+
+// define route handlers
 app.use(express.static(__dirname + '/'));
 app.use(cors());
 app.use(cookieParser());
 
 
+// app.use('/api/userInfo', (req, res) => {
+//   console.log();
+
+//   res.status(200)
+// })
+
+// request to login with spotify
 app.get('/login', (req, res) => {
 
   const state = generateRandomString(16);
@@ -50,7 +65,7 @@ app.get('/login', (req, res) => {
     }));
 });
 
-
+// grab access token 
 app.get('/callback', (req, res) => {
 
   // application requests refresh and access tokens
@@ -96,7 +111,7 @@ app.get('/callback', (req, res) => {
         // use the access token to access the Spotify Web API
         // get user info here
         request.get(options, (error, response, body) => {
-          console.log(body);
+          res.locals.userInfo = body
         });
 
         // get user's top artists
@@ -127,7 +142,6 @@ app.get('/callback', (req, res) => {
     });
   }
 });
-
 
 // refresh_token feature
 app.get('/refresh_token', (req, res) => {
