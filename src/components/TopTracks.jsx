@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import TopArtistsCard from './TopArtistsCard';
+import Track from './Track';
 
 // this component populates User Information from their Spotify Account
 // fetch Spotify data here
@@ -11,7 +11,7 @@ class TopTracks extends Component {
 
     this.state = {
       access_token : props.access_token,
-      TopTracks : []
+      tracksData : []
     }
   }
 
@@ -25,10 +25,10 @@ class TopTracks extends Component {
     .then(res => res.json())
     .then(data => {
       this.setState({ 
-        TopTracks : data
+        tracksData : data.items
       })
 
-      // console.log(data)
+      console.log(data)
     })
     .catch(err => console.log('getDetails: ERROR: ', err));
   }
@@ -39,12 +39,11 @@ class TopTracks extends Component {
     
   }
 
-
   render(){
   
     return(
     <div className="TopTracks">
-      TopTracks HERE
+      {this.state.tracksData.map((item, index) => <Track key={`track${index}`} name={item.name} img={item.album.images[2].url}/>)}
     </div>
     )
   }

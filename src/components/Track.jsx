@@ -1,12 +1,12 @@
 
 import React from 'react';
 
-const Artist = ({
-  name,img
+const Track = ({
+  name, img
 }) => {
 
   return (
-    <div className="Artist">
+    <div className="Track">
       <div>
       {name} <img className="albumArt" src={img}/>
       </div>
@@ -14,4 +14,4 @@ const Artist = ({
   )
 }
 
-export default Artist;
+export default Track;

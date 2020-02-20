@@ -59,7 +59,7 @@ app.get('/login', (req, res) => {
     }));
 });
 
-// grab access token 
+// grab access token and make requests
 app.get('/callback', (req, res) => {
 
   // application requests refresh and access tokens
@@ -119,7 +119,7 @@ app.get('/callback', (req, res) => {
 
         // body.items is an array of objects (map!!!)
         request.get(topArtists, (error, response, body) => {
-          console.log(body.items);
+          // console.log(body.items);
         });
 
         // old chain default behavior old redirect

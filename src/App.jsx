@@ -53,12 +53,14 @@ class App extends Component{
           <User 
             access_token={this.state.access_token}
           />
-          <TopArtists
-            access_token={this.state.access_token}
-          />
-          {/* <TopTracks
-            access_token={this.state.access_token}
-          /> */}
+          <div className="Top">
+            <TopArtists
+              access_token={this.state.access_token}
+            />
+            <TopTracks
+              access_token={this.state.access_token}
+            />
+          </div>
         </div>
       );
     }

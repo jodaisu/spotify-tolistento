@@ -29,7 +29,7 @@ class TopArtists extends Component {
         artistNames : data.items
       })
 
-      console.log(data)
+      // console.log(data)
     })
     .catch(err => console.log('getDetails: ERROR: ', err));
   }
@@ -45,7 +45,7 @@ class TopArtists extends Component {
 
     return(
     <div className="TopArtists">
-      {this.state.artistNames.map((item, index) => <Artist key={`artist${index}`} name={item.name} img={item.images[2]}/>)}
+      {this.state.artistNames.map((item, index) => <Artist key={`artist${index}`} name={item.name} img={item.images[2].url}/>)}
     </div>
     )
   }

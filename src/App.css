@@ -30,5 +30,19 @@
 }
 
 .Artist {
+  background-color: blueviolet;
   font-size: 10px;
+}
+
+.Track {
+  background-color: blueviolet;
+  font-size: 10px;
+}
+
+.albumArt {
+  width: 20px;
+}
+
+.Top {
+  display: flex;
 }

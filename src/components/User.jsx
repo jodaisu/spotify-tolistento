@@ -32,7 +32,7 @@ class User extends Component {
         profileImgUrl : data.images[0].url
       })
 
-      console.log(data)
+      // console.log(data)
     })
     .catch(err => console.log('getDetails: ERROR: ', err));
   }
