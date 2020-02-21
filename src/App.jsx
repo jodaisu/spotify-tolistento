@@ -41,7 +41,7 @@ class App extends Component{
     if (!this.state.access_token){
       return (
         <div className="login">
-          <a href="/login">login to spotify</a>
+          <a href="/login">login with spotify</a>
         </div>
       )
     }

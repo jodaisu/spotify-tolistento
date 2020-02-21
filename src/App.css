@@ -1,5 +1,5 @@
 .App {
-  background: #209cee;
+  background: #A23E48;
   padding: 30px;
   height: 100vh;
 }
@@ -24,23 +24,23 @@
 }
 
 .UserCard {
-  background-color: yellow;
+  background-color: #FF3C38;
   display: flex;
 
 }
 
 .Artist {
-  background-color: blueviolet;
+  background-color: #FF8C42;
   font-size: 10px;
 }
 
 .Track {
-  background-color: blueviolet;
-  font-size: 10px;
+  background-color: #FFF275;
+  font-size: 15px;
 }
 
 .albumArt {
-  width: 20px;
+  width: 50px;
 }
 
 .Top {
