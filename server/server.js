@@ -6,12 +6,14 @@ const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const bodyParser = require('body-parser');
+const client_secret = require('../dist/client_secret');
 
 
 const apiRouter = require('./routes/userInfo.js')
-
 const client_id = '3262d100566844bfae076dc40941c25a'; // client id
-const client_secret = '75ae3e87832f4b0488a167efe314c1c1'; // secret
+
+
+
 const redirect_uri = 'http://localhost:8888/callback'; // redirect uri
 
 // generate random string function for cookie
