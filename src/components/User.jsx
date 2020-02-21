@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import UserCard from './UserCard';
-
+import ToListenTo from './ToListenTo';
 // this component populates User Information from their Spotify Account
 // fetch Spotify data here
 
@@ -13,10 +13,30 @@ class User extends Component {
     this.state = {
       access_token : props.access_token,
       name : "",
-      profileImgUrl : ""
+      profileImgUrl : "",
+      id : 0,
+      addArtist : this.addArtist(),
+      newArtist : ''
     }
+
+    this.addArtist = this.addArtist.bind(this)
+    this.newArtist = this.newArtist.bind(this)
   }
 
+  // insert query with this invocation
+  // need this.state.newArtist
+  addArtist(e) {
+    
+  }
+
+  // listener for onChange
+  newArtist (text) {
+    // set state on change
+    this.setState({
+      newArtist : text
+    })
+    console.log(this.state.newArtist)
+  }
   
   getUserInfo(token){
     console.log('Try to get User Info')
@@ -29,16 +49,22 @@ class User extends Component {
     .then(data => {
       this.setState({ 
         name : data.display_name.split(' ')[0],
-        profileImgUrl : data.images[0].url
+        profileImgUrl : data.images[0].url,
+        id : data.id,
       })
 
-      // console.log(data)
+      console.log(data)
     })
     .catch(err => console.log('getDetails: ERROR: ', err));
   }
 
   componentWillMount(){
     this.getUserInfo(this.props.access_token)
+    
+  }
+
+  // make a request to populate the database using this.state.id
+  componentDidMount() {
     
   }
 
@@ -53,6 +79,13 @@ class User extends Component {
         name={this.state.name}
         profileImgUrl={this.state.profileImgUrl}
       />
+
+      <ToListenTo 
+        id={this.state.id}
+        addArtist = {this.addArtist}
+        newArtist = {this.newArtist}
+      />
+
     </div>
     )
   }
