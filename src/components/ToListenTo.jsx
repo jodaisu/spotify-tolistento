@@ -5,10 +5,10 @@ const ToListenTo = props => (
       <h1>ToListenTo List</h1>
       <p>Artist</p><input id="field" type="text" onChange=
         {event => {
-          props.newArtist(event.target.value)
+          props.updateArtist(event.target.value)
           }} value={props.clear}>
         
-        </input><button onClick={() => this.props.addArtist(this.props.id)}>Add Artist</button>
+        </input><button onClick={() => props.addArtist(props.id, props.newArtist)}>Add Artist</button>
     </div>
 );
 

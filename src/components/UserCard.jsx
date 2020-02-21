@@ -10,7 +10,7 @@ const UserCard = ({
       Welcome {name}
       </div>
       <div className="profileImg">
-        <img src={profileImgUrl} width="30"></img>
+        <img src={profileImgUrl} width="60"></img>
       </div>
     </div>
   )

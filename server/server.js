@@ -7,6 +7,9 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+
+const apiRouter = require('./routes/userInfo.js')
+
 const client_id = '3262d100566844bfae076dc40941c25a'; // client id
 const client_secret = '75ae3e87832f4b0488a167efe314c1c1'; // secret
 const redirect_uri = 'http://localhost:8888/callback'; // redirect uri
@@ -28,6 +31,7 @@ const stateKey = 'spotify_auth_state';
 const app = express();
 
 // // require routers
+
 // const userInfo = require('./routes/userInfo');
 
 
@@ -38,6 +42,11 @@ const app = express();
 app.use(express.static(__dirname + '/'));
 app.use(cors());
 app.use(cookieParser());
+app.use(bodyParser());
+
+app.use('/', apiRouter);
+
+
 
 
 // request to login with spotify
@@ -174,6 +183,7 @@ app.get('/dist/bundle.js', (req, res) => {
 app.get('/', (req, res) => {
   res.status(200).sendFile(path.join(__dirname, '../public/index.html'));
 });
+
 
 
  

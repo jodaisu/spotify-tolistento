@@ -4,9 +4,11 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-// ADD GET USER INFO ROUTE HANDLER HERE
-router.get('/', userController.getUserInfo, (req, res, next) => {
-  res.status(200).send('hello')
+
+
+router.post('/addArtist', userController.addArtist, (req, res) => {
+  console.log(req.body);
+  res.status(200)
 });
 
 module.exports = router;

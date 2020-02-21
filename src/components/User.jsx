@@ -20,17 +20,34 @@ class User extends Component {
     }
 
     this.addArtist = this.addArtist.bind(this)
-    this.newArtist = this.newArtist.bind(this)
+    this.updateArtist = this.updateArtist.bind(this)
   }
 
   // insert query with this invocation
   // need this.state.newArtist
-  addArtist(e) {
-    
+
+
+
+  addArtist(id, newArtist) {
+    console.log(`attempt to fetch ${id} ${newArtist}`)
+    fetch('/addArtist', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "Application/JSON"
+    },
+    body: JSON.stringify({
+      clientId : id,
+      artistName : newArtist
+    }),
+  }).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+    // console.log(data);
+  });
   }
 
   // listener for onChange
-  newArtist (text) {
+  updateArtist (text) {
     // set state on change
     this.setState({
       newArtist : text
@@ -83,7 +100,8 @@ class User extends Component {
       <ToListenTo 
         id={this.state.id}
         addArtist = {this.addArtist}
-        newArtist = {this.newArtist}
+        updateArtist = {this.updateArtist}
+        newArtist = {this.state.newArtist}
       />
 
     </div>
