@@ -34,7 +34,7 @@ class TopTracks extends Component {
   }
 
 
-  componentWillMount(){
+  componentDidMount(){
     this.getTopTracks(this.props.access_token)
     
   }
